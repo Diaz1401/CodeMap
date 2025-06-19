@@ -1,4 +1,4 @@
-package com.example.codemap
+package com.diaznr.codemap
 
 import io.flutter.embedding.android.FlutterActivity
 
