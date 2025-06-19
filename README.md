@@ -1,40 +1,41 @@
 # CodeMap: Understand Any Codebase
 
-## App Purpose
-When encountering a new codebase in an unfamiliar programming language, it can be confusing to understand what is happening. CodeMap is an app designed to help users paste any code snippet (from any language) and receive tailored context, documentation, and a learning path to better understand the code.
+CodeMap is a Flutter app I built to learn about integrating the Gemini API (and other LLMs) with Flutter. The app serves a practical purpose: helping developers understand unfamiliar code by providing AI-powered analysis and guidance.
 
-## Vision
-- Not just AI explaining code — it builds a learning path around it.
-- Helps coders understand new languages or styles.
+## What It Does
 
-## Core Features
-| Feature                  | Description                                                                 |
-|-------------------------|-----------------------------------------------------------------------------|
-| 🔍 Code Language Detection | Automatically detects the language (Python, JS, etc.)                        |
-| 📄 Code Summary            | High-level explanation of what the code does                                 |
-| 🧩 Line-by-Line Explanation| Natural-language breakdown of each line                                      |
-| 📚 Learning Path           | Custom study steps to learn language/framework/style                         |
-| 📘 Glossary Builder        | AI-generated list of functions/classes/methods used with explanations        |
-| 🔁 Re-ask for Clarity      | Ask follow-up questions (chat-style or pre-set)                              |
+When faced with code you didn't write or in a language you're not familiar with, CodeMap helps by:
 
-## How AI Helps
-| AI Role            | Method                                                                 |
-|--------------------|------------------------------------------------------------------------|
-| Language detection | Basic regex or AI prompt: “What language is this?”                      |
-| Summary & Breakdown| AI prompt: “Explain this code as if I’m new to the language”            |
-| Glossary terms     | Extract function/class names → define using AI                          |
-| Learning path      | AI generates a step-by-step: "Learn functions → learn closures → async" |
+* Providing a concise summary of the code's purpose
+* Breaking down the code line-by-line or by logical blocks 
+* Creating a glossary of unfamiliar terms, functions, and classes
+* Suggesting a personalized learning path to understand the underlying concepts
 
-## Example User Flow
-1. User pastes code snippet.
-2. App detects language.
-3. App provides:
-   - High-level summary
-   - Line-by-line explanation
-   - Glossary of terms
-   - Learning path
-4. User can ask follow-up questions for clarity.
+## How the AI Integration Works
 
----
+| Feature           | Implementation                                                                  |
+|-------------------|---------------------------------------------------------------------------------|
+| Code Summary      | Prompted Gemini to generate a high-level explanation of the code                |
+| Code Analysis     | Structured prompts to break down the code line-by-line                          |
+| Glossary Creation | Extracted key terms (functions, classes, methods) and defined them using Gemini |
+| Learning Path     | AI-generated learning path based on given code snippet                          |
 
-This file documents the initial idea, vision, and feature set for the CodeMap project. Some of the features may evolve based on user feedback and technical feasibility. The goal is to create a tool that not only explains code but also helps users learn and adapt to new programming languages and styles effectively.
+
+## User Flow
+
+1. Paste code in the input field
+2. Press analyze button
+3. View results organized into:
+   * Summary
+   * Line-by-line explanation
+   * Glossary
+   * Learning path
+
+## Project Status
+
+This is an active learning project focused on:
+- Understanding LLM API integration with Flutter
+- Exploring prompt engineering for code understanding
+- Creating practical developer tools with AI assistance
+
+Features and implementation details may change as I continue to learn and iterate on the concept.
