@@ -4,7 +4,7 @@ import 'package:codemap/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-class AiApiService {
+class ApiService {
   final apiKey = const String.fromEnvironment("GEMINI_API_KEY");
   final baseUrl =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
