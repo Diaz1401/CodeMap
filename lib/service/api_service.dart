@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:codemap/util/util.dart';
 import 'package:http/http.dart' as http;
 
 class AiApiService {
-  final baseUrl =
-      'https://api.replicate.com/v1/models/ibm-granite/granite-3.3-8b-instruct/predictions';
+  // Replace with your actual Gemini API key or load from env
+  final String apiKey = const String.fromEnvironment("GEMINI_API_KEY");
+  final String baseUrl =
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+
   final systemPrompt = '''
 You are CodeMap, an intelligent AI designed to help programmers understand unfamiliar code across any programming language. Your job is to analyze a given code snippet and return a structured explanation divided into four sections:
 
@@ -43,26 +47,49 @@ Do not include any introduction, closing statements, or content outside of this 
 ''';
 
   Future<String?> createPrediction({required String prompt}) async {
-    var apiToken = const String.fromEnvironment("REPLICATE_API_TOKEN");
+    final url = '$baseUrl?key=$apiKey';
+    final fullPrompt = "$systemPrompt\n\n$prompt";
+    final body = jsonEncode({
+      "contents": [
+        {
+          "parts": [
+            {"text": fullPrompt},
+          ],
+        },
+      ],
+    });
+
     final response = await http.post(
-      Uri.parse(baseUrl),
-      headers: {
-        'Authorization': 'Bearer $apiToken',
-        'Content-Type': 'application/json',
-        'Prefer': 'wait',
-      },
-      body: jsonEncode({
-        'input': {'prompt': prompt, 'system_prompt': systemPrompt},
-      }),
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: body,
     );
-    if (response.statusCode == 200 || response.statusCode == 201) {
+
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final outputList = data['output'];
-      if (outputList is List) {
-        return outputList.whereType<String>().join('');
+      // Gemini output: candidates[0].content.parts[0].text
+      try {
+        final candidates = data['candidates'];
+        if (candidates is List && candidates.isNotEmpty) {
+          final content = candidates[0]['content'];
+          if (content != null &&
+              content['parts'] is List &&
+              content['parts'].isNotEmpty &&
+              content['parts'][0]['text'] is String) {
+            return content['parts'][0]['text'] as String;
+          }
+        }
+        Util.printDebug("API", "Unexpected Gemini output: $data");
+        return null;
+      } catch (e) {
+        Util.printDebug("API", "Error parsing Gemini response: $e");
+        return null;
       }
-      return null;
     } else {
+      Util.printDebug(
+        "API",
+        "Error: ${response.statusCode} - ${response.body}",
+      );
       return null;
     }
   }
