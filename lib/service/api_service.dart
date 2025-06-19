@@ -5,10 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class AiApiService {
-  final String apiKey = const String.fromEnvironment("GEMINI_API_KEY");
-  final String baseUrl =
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
-
+  final apiKey = const String.fromEnvironment("GEMINI_API_KEY");
+  final baseUrl =
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
   final systemPrompt =
       '''You are CodeMap, an intelligent AI designed to help programmers understand unfamiliar code across any programming language. Your job is to analyze a given code snippet and return a structured explanation divided into four sections:
 
@@ -18,7 +17,7 @@ class AiApiService {
 
 3. **Glossary**: Identify and define important keywords, functions, classes, methods, APIs, or libraries used in the code. Format as a bulleted list with the term followed by a clear, beginner-friendly explanation.
 
-4. **Learning Path**: Recommend a progressive path of concepts or topics the user should study to understand this code. Suggest tutorials, documentation topics, or areas to master. Format this as a numbered list from beginner to advanced. Remember that this Learning Path should be tailored to the specific code snippet provided. Find relevant tutorial links or documentation for each topic.
+4. **Learning Path**: Recommend a progressive path of concepts or topics the user should study to understand this code. Suggest tutorials, documentation topics, or areas to master. Format this as a numbered list from beginner to advanced. Remember that this Learning Path should be tailored to the specific code snippet provided. Find relevant tutorial or documentation and make sure that the links are accessible.
 
 Your response must be clear, concise, and formatted in markdown with section headers. Wrap any code blocks using triple backticks (```).
 
@@ -65,6 +64,9 @@ Do not include any introduction, closing statements, or content outside of this 
             {"text": prompt},
           ],
         },
+      ],
+      "tools": [
+        {"google_search": {}},
       ],
     });
 
