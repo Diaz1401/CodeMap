@@ -4,6 +4,8 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:codemap/service/api_service.dart';
 import 'dart:async';
 
+import 'package:url_launcher/url_launcher.dart';
+
 class ResultsPage extends StatefulWidget {
   final String code;
   final bool analyzed;
@@ -227,6 +229,11 @@ class _ResultsPageState extends State<ResultsPage> {
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 3),
                                     selectable: true,
+                                    onTapLink: (text, href, title) async {
+                                      if (href != null) {
+                                        await launchUrl(Uri.parse(href));
+                                      }
+                                    },
                                   )
                           : Text(AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
