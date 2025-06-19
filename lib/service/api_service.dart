@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AiApiService {
-  final String apiToken;
   final baseUrl =
       'https://api.replicate.com/v1/models/ibm-granite/granite-3.3-8b-instruct/predictions';
   final systemPrompt = '''
@@ -43,42 +42,28 @@ SEPARATOR04
 Do not include any introduction, closing statements, or content outside of this format. Only output what is inside this structure.
 ''';
 
-  AiApiService({required this.apiToken});
-
   Future<String?> createPrediction({required String prompt}) async {
+    var apiToken = const String.fromEnvironment("REPLICATE_API_TOKEN");
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: {
         'Authorization': 'Bearer $apiToken',
         'Content-Type': 'application/json',
+        'Prefer': 'wait',
       },
       body: jsonEncode({
-        'stream': true,
         'input': {'prompt': prompt, 'system_prompt': systemPrompt},
       }),
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final data = jsonDecode(response.body);
-      return data['urls']?['stream'] as String?;
-    } else {
-      // Handle error
-      return null;
-    }
-  }
-
-  Stream<String> streamPrediction(String streamUrl) async* {
-    final request = http.Request('GET', Uri.parse(streamUrl));
-    request.headers.addAll({
-      'Accept': 'text/event-stream',
-      'Cache-Control': 'no-store',
-    });
-    final response = await request.send();
-    if (response.statusCode == 200) {
-      await for (final line in response.stream.transform(utf8.decoder)) {
-        yield line;
+      final outputList = data['output'];
+      if (outputList is List) {
+        return outputList.whereType<String>().join('');
       }
+      return null;
     } else {
-      yield 'Error: ${response.statusCode}';
+      return null;
     }
   }
 }

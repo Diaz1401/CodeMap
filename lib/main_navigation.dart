@@ -21,10 +21,10 @@ class _MainNavigationState extends State<MainNavigation> {
     });
   }
 
-  void _onAnalyze(String code) {
+  void _onAnalyze(String code, bool analyzed) {
     setState(() {
       _code = code;
-      _analyzed = true;
+      _analyzed = analyzed;
       _selectedIndex = 1; // Switch to Results tab
     });
   }
@@ -36,8 +36,8 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _selectedIndex == 0
           ? CodeInputPage(onAnalyze: _onAnalyze, code: _code)
           : _selectedIndex == 1
-              ? ResultsPage(code: _code, analyzed: _analyzed)
-              : const SettingsPage(),
+          ? ResultsPage(code: _code, analyzed: _analyzed)
+          : const SettingsPage(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.code), label: 'Code Input'),
@@ -56,4 +56,3 @@ class _MainNavigationState extends State<MainNavigation> {
     );
   }
 }
-

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CodeInputPage extends StatefulWidget {
-  final void Function(String) onAnalyze;
+  final void Function(String, bool) onAnalyze;
   final String code;
   const CodeInputPage({super.key, required this.onAnalyze, required this.code});
 
@@ -53,7 +53,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                widget.onAnalyze(_controller.text);
+                widget.onAnalyze(_controller.text, true);
               },
               child: const Text('Analyze'),
             ),
@@ -63,4 +63,3 @@ class _CodeInputPageState extends State<CodeInputPage> {
     );
   }
 }
-
