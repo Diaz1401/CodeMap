@@ -1,7 +1,7 @@
 import 'package:codemap/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:codemap/service/api_service.dart';
+import 'package:codemap/services/api_service.dart';
 import 'dart:async';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -20,7 +20,7 @@ class _ResultsPageState extends State<ResultsPage> {
   static String _persistedMarkdownBuffer = '';
   static String _persistedCode = '';
   static bool _persistedHasAnalyzed = false;
-  
+
   String _markdownBuffer = '';
   bool _loading = false;
   String? _error;
@@ -65,7 +65,10 @@ class _ResultsPageState extends State<ResultsPage> {
     });
 
     final aiService = ApiService();
-    final result = await aiService.createPrediction(prompt: widget.code, context: context);
+    final result = await aiService.createPrediction(
+      prompt: widget.code,
+      context: context,
+    );
 
     if (result == null) {
       setState(() {
@@ -89,10 +92,12 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   void didUpdateWidget(covariant ResultsPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.analyzed && 
-        widget.code.trim().isNotEmpty && 
-        ((oldWidget.code != widget.code && widget.code != _persistedCode) || 
-         (!oldWidget.analyzed && widget.analyzed && !_persistedHasAnalyzed))) {
+    if (widget.analyzed &&
+        widget.code.trim().isNotEmpty &&
+        ((oldWidget.code != widget.code && widget.code != _persistedCode) ||
+            (!oldWidget.analyzed &&
+                widget.analyzed &&
+                !_persistedHasAnalyzed))) {
       _fetchAiResult();
     }
   }
@@ -102,12 +107,16 @@ class _ResultsPageState extends State<ResultsPage> {
     super.didChangeDependencies();
     if (!_didFetch) {
       // Restore state from persisted values if available and matching current code
-      if (_persistedHasAnalyzed && _persistedCode == widget.code && _persistedMarkdownBuffer.isNotEmpty) {
+      if (_persistedHasAnalyzed &&
+          _persistedCode == widget.code &&
+          _persistedMarkdownBuffer.isNotEmpty) {
         _markdownBuffer = _persistedMarkdownBuffer;
         _hasAnalyzed = true;
       }
       // Otherwise, only fetch on initial load if the analyzed flag is true and we haven't analyzed this code
-      else if (widget.analyzed && widget.code.trim().isNotEmpty && !_hasAnalyzed) {
+      else if (widget.analyzed &&
+          widget.code.trim().isNotEmpty &&
+          !_hasAnalyzed) {
         _fetchAiResult();
       }
       _didFetch = true;
@@ -127,10 +136,22 @@ class _ResultsPageState extends State<ResultsPage> {
         children: [
           TabBar(
             tabs: [
-              Tab(text: AppLocalizations.of(context)!.resultTabSummary, icon: const Icon(Icons.info_outline)),
-              Tab(text: AppLocalizations.of(context)!.resultTabLineByLine, icon: const Icon(Icons.view_list)),
-              Tab(text: AppLocalizations.of(context)!.resultTabGlossary, icon: const Icon(Icons.book)),
-              Tab(text: AppLocalizations.of(context)!.resultTabLearningPath, icon: const Icon(Icons.school)),
+              Tab(
+                text: AppLocalizations.of(context)!.resultTabSummary,
+                icon: const Icon(Icons.info_outline),
+              ),
+              Tab(
+                text: AppLocalizations.of(context)!.resultTabLineByLine,
+                icon: const Icon(Icons.view_list),
+              ),
+              Tab(
+                text: AppLocalizations.of(context)!.resultTabGlossary,
+                icon: const Icon(Icons.book),
+              ),
+              Tab(
+                text: AppLocalizations.of(context)!.resultTabLearningPath,
+                icon: const Icon(Icons.school),
+              ),
             ],
           ),
           Expanded(
@@ -150,12 +171,15 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? Text(AppLocalizations.of(context)!.resultLoading)
+                                ? Text(
+                                    AppLocalizations.of(context)!.resultLoading,
+                                  )
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 0),
                                     selectable: true,
                                   )
-                          : Text(AppLocalizations.of(context)!.resultNoCode,
+                          : Text(
+                              AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),
@@ -175,12 +199,15 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? Text(AppLocalizations.of(context)!.resultLoading)
+                                ? Text(
+                                    AppLocalizations.of(context)!.resultLoading,
+                                  )
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 1),
                                     selectable: true,
                                   )
-                          : Text(AppLocalizations.of(context)!.resultNoCode,
+                          : Text(
+                              AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),
@@ -200,12 +227,15 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? Text(AppLocalizations.of(context)!.resultLoading)
+                                ? Text(
+                                    AppLocalizations.of(context)!.resultLoading,
+                                  )
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 2),
                                     selectable: true,
                                   )
-                          : Text(AppLocalizations.of(context)!.resultNoCode,
+                          : Text(
+                              AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),
@@ -225,7 +255,9 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? Text(AppLocalizations.of(context)!.resultLoading)
+                                ? Text(
+                                    AppLocalizations.of(context)!.resultLoading,
+                                  )
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 3),
                                     selectable: true,
@@ -235,7 +267,8 @@ class _ResultsPageState extends State<ResultsPage> {
                                       }
                                     },
                                   )
-                          : Text(AppLocalizations.of(context)!.resultNoCode,
+                          : Text(
+                              AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),

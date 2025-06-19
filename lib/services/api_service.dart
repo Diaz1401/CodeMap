@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:codemap/util/util.dart';
+import 'package:codemap/utils/util.dart';
 import 'package:codemap/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;

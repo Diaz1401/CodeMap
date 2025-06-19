@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'l10n/app_localizations.dart';
-import 'pages/code_input_page.dart';
+import 'pages/codeinput_page.dart';
 import 'pages/results_page.dart';
 import 'pages/settings_page.dart';
 
