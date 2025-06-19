@@ -13,9 +13,15 @@ class ResultsPage extends StatefulWidget {
 }
 
 class _ResultsPageState extends State<ResultsPage> {
+  // Static variables to persist data across rebuilds
+  static String _persistedMarkdownBuffer = '';
+  static String _persistedCode = '';
+  static bool _persistedHasAnalyzed = false;
+  
   String _markdownBuffer = '';
   bool _loading = false;
   String? _error;
+  bool _hasAnalyzed = false;
 
   String _extractSection(String buffer, int section) {
     // section: 0 = Summary, 1 = Line-by-Line, 2 = Glossary, 3 = Learning Path
@@ -40,6 +46,10 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   void dispose() {
+    // Save our state before disposing
+    _persistedMarkdownBuffer = _markdownBuffer;
+    _persistedHasAnalyzed = _hasAnalyzed;
+    _persistedCode = widget.code;
     super.dispose();
   }
 
@@ -64,15 +74,21 @@ class _ResultsPageState extends State<ResultsPage> {
     setState(() {
       _markdownBuffer = result;
       _loading = false;
+      _hasAnalyzed = true;
+      // Update persisted values
+      _persistedMarkdownBuffer = result;
+      _persistedHasAnalyzed = true;
+      _persistedCode = widget.code;
     });
   }
 
   @override
   void didUpdateWidget(covariant ResultsPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.analyzed &&
-        widget.code.trim().isNotEmpty &&
-        (oldWidget.code != widget.code || !oldWidget.analyzed)) {
+    if (widget.analyzed && 
+        widget.code.trim().isNotEmpty && 
+        ((oldWidget.code != widget.code && widget.code != _persistedCode) || 
+         (!oldWidget.analyzed && widget.analyzed && !_persistedHasAnalyzed))) {
       _fetchAiResult();
     }
   }
@@ -80,7 +96,14 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.analyzed && widget.code.trim().isNotEmpty) {
+    
+    // Restore state from persisted values if available and matching current code
+    if (_persistedHasAnalyzed && _persistedCode == widget.code && _persistedMarkdownBuffer.isNotEmpty) {
+      _markdownBuffer = _persistedMarkdownBuffer;
+      _hasAnalyzed = true;
+    } 
+    // Otherwise, only fetch on initial load if the analyzed flag is true and we haven't analyzed this code
+    else if (widget.analyzed && widget.code.trim().isNotEmpty && !_hasAnalyzed) {
       _fetchAiResult();
     }
   }
