@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'package:codemap/util/util.dart';
+import 'package:codemap/l10n/app_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class AiApiService {
-  // Replace with your actual Gemini API key or load from env
   final String apiKey = const String.fromEnvironment("GEMINI_API_KEY");
   final String baseUrl =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
-  final systemPrompt = '''
-You are CodeMap, an intelligent AI designed to help programmers understand unfamiliar code across any programming language. Your job is to analyze a given code snippet and return a structured explanation divided into four sections:
+  final systemPrompt =
+      '''You are CodeMap, an intelligent AI designed to help programmers understand unfamiliar code across any programming language. Your job is to analyze a given code snippet and return a structured explanation divided into four sections:
 
 1. **Summary**: Briefly describe what the code does overall. Focus on its purpose, main structure, and technologies/libraries used.
 
@@ -17,7 +18,7 @@ You are CodeMap, an intelligent AI designed to help programmers understand unfam
 
 3. **Glossary**: Identify and define important keywords, functions, classes, methods, APIs, or libraries used in the code. Format as a bulleted list with the term followed by a clear, beginner-friendly explanation.
 
-4. **Learning Path**: Recommend a progressive path of concepts or topics the user should study to understand this code. Suggest tutorials, documentation topics, or areas to master. Format this as a numbered list from beginner to advanced. Remember that this Learning Path should be tailored to the specific code snippet provided.
+4. **Learning Path**: Recommend a progressive path of concepts or topics the user should study to understand this code. Suggest tutorials, documentation topics, or areas to master. Format this as a numbered list from beginner to advanced. Remember that this Learning Path should be tailored to the specific code snippet provided. Find relevant tutorial links or documentation for each topic.
 
 Your response must be clear, concise, and formatted in markdown with section headers. Wrap any code blocks using triple backticks (```).
 
@@ -43,21 +44,32 @@ SEPARATOR03
 ...
 SEPARATOR04  
 
-Do not include any introduction, closing statements, or content outside of this format. Only output what is inside this structure.
-''';
+Do not include any introduction, closing statements, or content outside of this format. Only output what is inside this structure.''';
 
-  Future<String?> createPrediction({required String prompt}) async {
+  Future<String?> createPrediction({
+    required String prompt,
+    required BuildContext context,
+  }) async {
+    final systemPromptLang =
+        "Write in ${AppLocalizations.of(context)!.systemPromptLang}.";
     final url = '$baseUrl?key=$apiKey';
-    final fullPrompt = "$systemPrompt\n\n$prompt";
     final body = jsonEncode({
+      "system_instruction": {
+        "parts": [
+          {"text": "$systemPrompt $systemPromptLang"},
+        ],
+      },
       "contents": [
         {
           "parts": [
-            {"text": fullPrompt},
+            {"text": prompt},
           ],
         },
       ],
     });
+
+    Util.printDebug("API", "System Prompt: $systemPrompt $systemPromptLang");
+    Util.printDebug("API", "Prompt: $prompt");
 
     final response = await http.post(
       Uri.parse(url),

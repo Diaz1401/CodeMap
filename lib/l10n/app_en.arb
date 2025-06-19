@@ -1,0 +1,16 @@
+{
+    "codeInputTitle": "Paste your code snippet below:",
+    "codeInputHint": "Paste code here...",
+    "codeInputButton": "Analyze",
+    "systemPromptLang": "English",
+    "resultErr": "Failed to get AI result.",
+    "resultTabSummary": "Summary",
+    "resultTabLineByLine": "Line-by-Line",
+    "resultTabGlossary": "Glossary",
+    "resultTabLearningPath": "Learning Path",
+    "resultLoading": "Loading...",
+    "resultNoCode": "No code analyzed yet.",
+    "navbarInputCode": "Input Code",
+    "navbarResults": "Result",
+    "navbarSetting": "Setting"
+}

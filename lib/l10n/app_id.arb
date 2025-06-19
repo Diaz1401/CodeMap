@@ -1,0 +1,16 @@
+{
+    "codeInputTitle": "Tempelkan potongan kode dibawah:",
+    "codeInputHint": "Tempelkan kode disini...",
+    "codeInputButton": "Analisa",
+    "systemPromptLang": "Bahasa Indonesia",
+    "resultErr": "Gagal mendapatkan hasil AI.",
+    "resultTabSummary": "Ringkasan",
+    "resultTabLineByLine": "Baris demi Baris",
+    "resultTabGlossary": "Glosarium",
+    "resultTabLearningPath": "Jalur Pembelajaran",
+    "resultLoading": "Memuat...",
+    "resultNoCode": "Belum ada kode yang dianalisis.",
+    "navbarInputCode": "Masukan Kode",
+    "navbarResults": "Hasil",
+    "navbarSetting": "Pengaturan"
+}

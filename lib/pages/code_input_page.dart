@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:codemap/l10n/app_localizations.dart';
 
 class CodeInputPage extends StatefulWidget {
   final void Function(String, bool) onAnalyze;
@@ -34,30 +35,48 @@ class _CodeInputPageState extends State<CodeInputPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Paste your code snippet below:'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _controller,
-              maxLines: 10,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Paste code here...',
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(AppLocalizations.of(context)!.codeInputTitle),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _controller,
+                        maxLines: 15,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          hintText: AppLocalizations.of(context)!.codeInputHint,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                widget.onAnalyze(_controller.text, true);
-              },
-              child: const Text('Analyze'),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                  top: 16,
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onAnalyze(_controller.text, true);
+                  },
+                  child: Text(AppLocalizations.of(context)!.codeInputButton),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

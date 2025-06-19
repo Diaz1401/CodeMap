@@ -1,3 +1,4 @@
+import 'package:codemap/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:codemap/service/api_service.dart';
@@ -22,6 +23,7 @@ class _ResultsPageState extends State<ResultsPage> {
   bool _loading = false;
   String? _error;
   bool _hasAnalyzed = false;
+  bool _didFetch = false;
 
   String _extractSection(String buffer, int section) {
     // section: 0 = Summary, 1 = Line-by-Line, 2 = Glossary, 3 = Learning Path
@@ -61,12 +63,12 @@ class _ResultsPageState extends State<ResultsPage> {
     });
 
     final aiService = AiApiService();
-    final result = await aiService.createPrediction(prompt: widget.code);
+    final result = await aiService.createPrediction(prompt: widget.code, context: context);
 
     if (result == null) {
       setState(() {
         _loading = false;
-        _error = 'Failed to get AI result.';
+        _error = AppLocalizations.of(context)!.resultErr;
       });
       return;
     }
@@ -94,18 +96,25 @@ class _ResultsPageState extends State<ResultsPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_didFetch) {
+      // Restore state from persisted values if available and matching current code
+      if (_persistedHasAnalyzed && _persistedCode == widget.code && _persistedMarkdownBuffer.isNotEmpty) {
+        _markdownBuffer = _persistedMarkdownBuffer;
+        _hasAnalyzed = true;
+      }
+      // Otherwise, only fetch on initial load if the analyzed flag is true and we haven't analyzed this code
+      else if (widget.analyzed && widget.code.trim().isNotEmpty && !_hasAnalyzed) {
+        _fetchAiResult();
+      }
+      _didFetch = true;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
-    
-    // Restore state from persisted values if available and matching current code
-    if (_persistedHasAnalyzed && _persistedCode == widget.code && _persistedMarkdownBuffer.isNotEmpty) {
-      _markdownBuffer = _persistedMarkdownBuffer;
-      _hasAnalyzed = true;
-    } 
-    // Otherwise, only fetch on initial load if the analyzed flag is true and we haven't analyzed this code
-    else if (widget.analyzed && widget.code.trim().isNotEmpty && !_hasAnalyzed) {
-      _fetchAiResult();
-    }
   }
 
   @override
@@ -114,15 +123,12 @@ class _ResultsPageState extends State<ResultsPage> {
       length: 4,
       child: Column(
         children: [
-          const TabBar(
-            labelColor: Colors.teal,
-            unselectedLabelColor: Colors.black54,
-            indicatorColor: Colors.teal,
+          TabBar(
             tabs: [
-              Tab(text: 'Summary', icon: Icon(Icons.info_outline)),
-              Tab(text: 'Line-by-Line', icon: Icon(Icons.view_list)),
-              Tab(text: 'Glossary', icon: Icon(Icons.book)),
-              Tab(text: 'Learning Path', icon: Icon(Icons.school)),
+              Tab(text: AppLocalizations.of(context)!.resultTabSummary, icon: const Icon(Icons.info_outline)),
+              Tab(text: AppLocalizations.of(context)!.resultTabLineByLine, icon: const Icon(Icons.view_list)),
+              Tab(text: AppLocalizations.of(context)!.resultTabGlossary, icon: const Icon(Icons.book)),
+              Tab(text: AppLocalizations.of(context)!.resultTabLearningPath, icon: const Icon(Icons.school)),
             ],
           ),
           Expanded(
@@ -142,13 +148,12 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? const Text('Loading...')
+                                ? Text(AppLocalizations.of(context)!.resultLoading)
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 0),
                                     selectable: true,
                                   )
-                          : Text(
-                              'No code analyzed yet.',
+                          : Text(AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),
@@ -168,13 +173,12 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? const Text('Loading...')
+                                ? Text(AppLocalizations.of(context)!.resultLoading)
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 1),
                                     selectable: true,
                                   )
-                          : Text(
-                              'No code analyzed yet.',
+                          : Text(AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),
@@ -194,13 +198,12 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? const Text('Loading...')
+                                ? Text(AppLocalizations.of(context)!.resultLoading)
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 2),
                                     selectable: true,
                                   )
-                          : Text(
-                              'No code analyzed yet.',
+                          : Text(AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),
@@ -220,13 +223,12 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : _loading
-                                ? const Text('Loading...')
+                                ? Text(AppLocalizations.of(context)!.resultLoading)
                                 : Markdown(
                                     data: _extractSection(_markdownBuffer, 3),
                                     selectable: true,
                                   )
-                          : Text(
-                              'No code analyzed yet.',
+                          : Text(AppLocalizations.of(context)!.resultNoCode,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                     ),

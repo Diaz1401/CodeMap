@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'l10n/app_localizations.dart';
 import 'pages/code_input_page.dart';
 import 'pages/results_page.dart';
 import 'pages/settings_page.dart';
@@ -39,16 +40,19 @@ class _MainNavigationState extends State<MainNavigation> {
           ? ResultsPage(code: _code, analyzed: _analyzed)
           : const SettingsPage(),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.code), label: 'Code Input'),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.description),
-            label: 'Results',
+            icon: const Icon(Icons.code),
+            label: AppLocalizations.of(context)!.navbarInputCode,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.description),
+            label: AppLocalizations.of(context)!.navbarResults,
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.settings),
+          //   label: AppLocalizations.of(context)!.navbarSetting,
+          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
