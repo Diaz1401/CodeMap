@@ -1,4 +1,7 @@
+import 'package:codemap/service/google_sign_in_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../main_navigation.dart';
 
 class LoginPage extends StatelessWidget {
@@ -42,10 +45,17 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 40),
               InkWell(
                 borderRadius: BorderRadius.circular(12),
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const MainNavigation()),
-                  );
+                onTap: () async {
+                  User? user = await GoogleSignInService().signInWithGoogle();
+                  if (user != null) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => const MainNavigation()),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Sign in failed. Please try again.')),
+                    );
+                  }
                 },
                 child: Card(
                   elevation: 2,
