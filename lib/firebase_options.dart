@@ -57,6 +57,8 @@ class DefaultFirebaseOptions {
     appId: '1:471317285149:android:d32b508cbd696e0b6339f4',
     messagingSenderId: '471317285149',
     projectId: 'codemap-54f6c',
+    databaseURL: 'https://codemap-54f6c-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'codemap-54f6c.firebasestorage.app',
   );
+
 }

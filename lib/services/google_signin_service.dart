@@ -1,3 +1,4 @@
+import 'package:codemap/utils/util.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -28,6 +29,7 @@ class GoogleSignInService {
     final userCredential = await _auth.signInWithCredential(credential);
 
     // Return the authenticated user.
+    Util.printDebug("SIGNIN", "User: ${userCredential.user}");
     return userCredential.user;
   }
 
