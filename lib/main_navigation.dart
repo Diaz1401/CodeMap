@@ -30,12 +30,22 @@ class _MainNavigationState extends State<MainNavigation> {
     });
   }
 
+  void _onCodeChanged(String code) {
+    setState(() {
+      _code = code;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('CodeMap')),
       body: _selectedIndex == 0
-          ? CodeInputPage(onAnalyze: _onAnalyze, code: _code)
+          ? CodeInputPage(
+        onCodeChanged: _onCodeChanged,
+        onAnalyze: _onAnalyze,
+        code: _code,
+      )
           : _selectedIndex == 1
           ? ResultsPage(code: _code, analyzed: _analyzed)
           : const SettingsPage(),

@@ -4,8 +4,15 @@ import 'package:codemap/services/userdata_service.dart';
 
 class CodeInputPage extends StatefulWidget {
   final void Function(String, bool) onAnalyze;
+  final void Function(String) onCodeChanged;
   final String code;
-  const CodeInputPage({super.key, required this.onAnalyze, required this.code});
+
+  const CodeInputPage({
+    super.key,
+    required this.onAnalyze,
+    required this.onCodeChanged,
+    required this.code,
+  });
 
   @override
   State<CodeInputPage> createState() => _CodeInputPageState();
@@ -18,18 +25,24 @@ class _CodeInputPageState extends State<CodeInputPage> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.code);
+    _controller.addListener(_handleTextChanged);
   }
 
   @override
   void didUpdateWidget(covariant CodeInputPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.code != widget.code) {
+    if (oldWidget.code != widget.code && _controller.text != widget.code) {
       _controller.text = widget.code;
     }
   }
 
+  void _handleTextChanged() {
+    widget.onCodeChanged(_controller.text);
+  }
+
   @override
   void dispose() {
+    _controller.removeListener(_handleTextChanged);
     _controller.dispose();
     super.dispose();
   }
