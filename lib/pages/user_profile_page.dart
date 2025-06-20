@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:codemap/services/userdata_service.dart';
 import 'package:codemap/l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../services/google_signin_service.dart';
+import 'package:codemap/services/google_signin_service.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
 
-  Future<int> _getLimitLeft() async {
+  Future<int> _getRequestLeft() async {
     final data = await UserdataService().getUserRequestData();
     final count = data['count'] ?? 0;
     return 10 - (count as int);
@@ -79,10 +80,16 @@ class UserProfilePage extends StatelessWidget {
                         ),
                         const SizedBox(height: 32),
                         FutureBuilder<int>(
-                          future: _getLimitLeft(),
+                          future: _getRequestLeft(),
                           builder: (context, snapshot) {
+                            final primaryContainer = Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer;
                             if (!snapshot.hasData) {
-                              return const CircularProgressIndicator();
+                              return SpinKitThreeBounce(
+                                color: primaryContainer,
+                                size: 40,
+                              );
                             }
                             return Column(
                               children: [
