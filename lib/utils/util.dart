@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void printDebug(String tag, String message) {
   if (kDebugMode) {
@@ -19,26 +18,17 @@ void utilShowDialog(BuildContext context, String message) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.info_outline,
-                size: 50,
-              ),
+              const Icon(Icons.info_outline, size: 50),
               const SizedBox(height: 10),
               Text(
                 "Info",
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -51,10 +41,7 @@ void utilShowDialog(BuildContext context, String message) {
                 ),
                 child: Text(
                   "OK",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
