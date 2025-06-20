@@ -66,4 +66,16 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get msgSignInFailed => 'Gagal masuk. Silakan coba lagi.';
+
+  @override
+  String get txtUserProfile => 'Profil Pengguna';
+
+  @override
+  String get msgSignInRequired => 'Silakan masuk untuk melihat profil Anda.';
+
+  @override
+  String get txtReqLeft => 'Permintaan Tersisa';
+
+  @override
+  String get btnSignOut => 'Keluar';
 }

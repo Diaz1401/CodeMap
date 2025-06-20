@@ -211,6 +211,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in failed. Please try again.'**
   String get msgSignInFailed;
+
+  /// No description provided for @txtUserProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'User Profile'**
+  String get txtUserProfile;
+
+  /// No description provided for @msgSignInRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to view your profile.'**
+  String get msgSignInRequired;
+
+  /// No description provided for @txtReqLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests Left'**
+  String get txtReqLeft;
+
+  /// No description provided for @btnSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get btnSignOut;
 }
 
 class _AppLocalizationsDelegate

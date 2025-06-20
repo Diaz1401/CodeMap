@@ -1,3 +1,5 @@
+import 'package:codemap/pages/user_profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'l10n/app_localizations.dart';
 import 'pages/codeinput_page.dart';
@@ -39,7 +41,42 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CodeMap')),
+      appBar: AppBar(
+        title:
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                const Text('CodeMap', style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),),
+                const Spacer(),
+                FutureBuilder<User?>(
+                  future: Future.value(FirebaseAuth.instance.currentUser),
+                  builder: (context, snapshot) {
+                    final user = snapshot.data;
+                    return IconButton(
+                      icon: user?.photoURL != null
+                          ? CircleAvatar(
+                        backgroundImage: NetworkImage(user!.photoURL!),
+                        radius: 24,
+                      )
+                          : const Icon(Icons.account_circle, size: 42),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const UserProfilePage(),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+        ),
+      ),
       body: _selectedIndex == 0
           ? CodeInputPage(
               onCodeChanged: _onCodeChanged,

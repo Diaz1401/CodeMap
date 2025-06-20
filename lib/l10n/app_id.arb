@@ -17,5 +17,9 @@
     "msgInputLimitReached": "Batas input kode akun telah tercapai. Silakan coba lagi dalam 6 jam.",
     "msgContinueWithGoogle": "Silakan lanjutkan dengan akun Google untuk menggunakan aplikasi ini.",
     "btnContinueWithGoogle": "Lanjutkan dengan akun Google",
-    "msgSignInFailed": "Gagal masuk. Silakan coba lagi."
+    "msgSignInFailed": "Gagal masuk. Silakan coba lagi.",
+    "txtUserProfile": "Profil Pengguna",
+    "msgSignInRequired": "Silakan masuk untuk melihat profil Anda.",
+    "txtReqLeft": "Permintaan Tersisa",
+    "btnSignOut": "Keluar"
 }

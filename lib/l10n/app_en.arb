@@ -17,5 +17,9 @@
     "msgInputLimitReached": "Account code input limit reached. Please try again 6 hours later.",
     "msgContinueWithGoogle": "Please continue with Google account to use this app.",
     "btnContinueWithGoogle": "Continue with Google",
-    "msgSignInFailed": "Sign in failed. Please try again."
+    "msgSignInFailed": "Sign in failed. Please try again.",
+    "txtUserProfile": "User Profile",
+    "msgSignInRequired": "Please sign in to view your profile.",
+    "txtReqLeft": "Requests Left",
+    "btnSignOut": "Sign Out"
 }

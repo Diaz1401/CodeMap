@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         Locale('en'), // English
         Locale('id'), // Bahasa Indonesia
       ],
-      home: const LoginPage(),
+      home: const SignInPage(),
     );
   }
 }

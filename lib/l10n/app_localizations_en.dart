@@ -66,4 +66,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgSignInFailed => 'Sign in failed. Please try again.';
+
+  @override
+  String get txtUserProfile => 'User Profile';
+
+  @override
+  String get msgSignInRequired => 'Please sign in to view your profile.';
+
+  @override
+  String get txtReqLeft => 'Requests Left';
+
+  @override
+  String get btnSignOut => 'Sign Out';
 }
