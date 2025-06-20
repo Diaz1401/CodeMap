@@ -135,6 +135,8 @@ class _ResultsPageState extends State<ResultsPage> {
       child: Column(
         children: [
           TabBar(
+            tabAlignment: TabAlignment.start,
+            isScrollable: true,
             tabs: [
               Tab(
                 text: AppLocalizations.of(context)!.resultTabSummary,

@@ -28,7 +28,7 @@ class _MainNavigationState extends State<MainNavigation> {
     setState(() {
       _code = code;
       _analyzed = analyzed;
-      _selectedIndex = 1; // Switch to Results tab
+      analyzed ? _selectedIndex = 1 : _selectedIndex = 0;
     });
   }
 
@@ -42,39 +42,38 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                const Text('CodeMap', style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),),
-                const Spacer(),
-                FutureBuilder<User?>(
-                  future: Future.value(FirebaseAuth.instance.currentUser),
-                  builder: (context, snapshot) {
-                    final user = snapshot.data;
-                    return IconButton(
-                      icon: user?.photoURL != null
-                          ? CircleAvatar(
-                        backgroundImage: NetworkImage(user!.photoURL!),
-                        radius: 24,
-                      )
-                          : const Icon(Icons.account_circle, size: 42),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const UserProfilePage(),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              const Text(
+                'CodeMap',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              const Spacer(),
+              FutureBuilder<User?>(
+                future: Future.value(FirebaseAuth.instance.currentUser),
+                builder: (context, snapshot) {
+                  final user = snapshot.data;
+                  return IconButton(
+                    icon: user?.photoURL != null
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(user!.photoURL!),
+                            radius: 24,
+                          )
+                        : const Icon(Icons.account_circle, size: 42),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const UserProfilePage(),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
       body: _selectedIndex == 0

@@ -41,6 +41,36 @@ class _CodeInputPageState extends State<CodeInputPage> {
     widget.onCodeChanged(_controller.text);
   }
 
+  Future<bool> inputNotValid() async {
+    final code = _controller.text;
+    if (code.isEmpty) {
+      utilShowDialog(
+        context,
+        AppLocalizations.of(context)!.msgCodeInputEmpty,
+      );
+      widget.onAnalyze(_controller.text, false);
+      return true;
+    }
+    if (code.length < 10) {
+      utilShowDialog(
+        context,
+        AppLocalizations.of(context)!.msgCodeInputTooShort,
+      );
+      widget.onAnalyze(_controller.text, false);
+      return true;
+    }
+    final canAnalyze = await UserdataService().canAnalyze();
+    if (!canAnalyze) {
+      utilShowDialog(
+        context,
+        AppLocalizations.of(context)!.msgInputLimitReached,
+      );
+      widget.onAnalyze(_controller.text, false);
+      return true;
+    }
+    return false;
+  }
+
   @override
   void dispose() {
     _controller.removeListener(_handleTextChanged);
@@ -85,14 +115,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    final canAnalyze = await UserdataService().canAnalyze();
-                    if (!canAnalyze) {
-                      utilShowDialog(
-                        context,
-                        AppLocalizations.of(context)!.msgInputLimitReached,
-                      );
-                      return;
-                    }
+                    if (await inputNotValid()) return;
                     await UserdataService().incrementAnalyzeCount();
                     widget.onAnalyze(_controller.text, true);
                   },

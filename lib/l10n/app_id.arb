@@ -21,5 +21,7 @@
     "txtUserProfile": "Profil Pengguna",
     "msgSignInRequired": "Silakan masuk untuk melihat profil Anda.",
     "txtReqLeft": "Permintaan Tersisa",
-    "btnSignOut": "Keluar"
+    "btnSignOut": "Keluar",
+    "msgCodeInputEmpty": "Input kode tidak boleh kosong.",
+    "msgCodeInputTooShort": "Input kode terlalu pendek. Silakan berikan potongan kode yang valid."
 }

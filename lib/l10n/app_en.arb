@@ -21,5 +21,7 @@
     "txtUserProfile": "User Profile",
     "msgSignInRequired": "Please sign in to view your profile.",
     "txtReqLeft": "Requests Left",
-    "btnSignOut": "Sign Out"
+    "btnSignOut": "Sign Out",
+    "msgCodeInputEmpty": "Code input cannot be empty.",
+    "msgCodeInputTooShort": "Code input is too short. Please provide a valid code snippet."
 }

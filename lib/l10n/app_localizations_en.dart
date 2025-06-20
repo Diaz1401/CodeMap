@@ -78,4 +78,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btnSignOut => 'Sign Out';
+
+  @override
+  String get msgCodeInputEmpty => 'Code input cannot be empty.';
+
+  @override
+  String get msgCodeInputTooShort =>
+      'Code input is too short. Please provide a valid code snippet.';
 }

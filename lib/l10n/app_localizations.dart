@@ -235,6 +235,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get btnSignOut;
+
+  /// No description provided for @msgCodeInputEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Code input cannot be empty.'**
+  String get msgCodeInputEmpty;
+
+  /// No description provided for @msgCodeInputTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Code input is too short. Please provide a valid code snippet.'**
+  String get msgCodeInputTooShort;
 }
 
 class _AppLocalizationsDelegate
