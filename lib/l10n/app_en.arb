@@ -12,5 +12,10 @@
     "resultNoCode": "No code analyzed yet.",
     "navbarInputCode": "Input Code",
     "navbarResults": "Result",
-    "navbarSetting": "Setting"
+    "navbarSetting": "Setting",
+    "titleWelcome": "Welcome to CodeMap",
+    "msgInputLimitReached": "Account code input limit reached. Please try again 6 hours later.",
+    "msgContinueWithGoogle": "Please continue with Google account to use this app.",
+    "btnContinueWithGoogle": "Continue with Google",
+    "msgSignInFailed": "Sign in failed. Please try again."
 }

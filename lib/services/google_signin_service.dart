@@ -29,7 +29,7 @@ class GoogleSignInService {
     final userCredential = await _auth.signInWithCredential(credential);
 
     // Return the authenticated user.
-    Util.printDebug("SIGNIN", "User: ${userCredential.user}");
+    printDebug("SIGNIN", "User: ${userCredential.user}");
     return userCredential.user;
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:codemap/l10n/app_localizations.dart';
 import 'package:codemap/services/userdata_service.dart';
+import 'package:codemap/utils/util.dart';
 
 class CodeInputPage extends StatefulWidget {
   final void Function(String, bool) onAnalyze;
@@ -86,12 +87,9 @@ class _CodeInputPageState extends State<CodeInputPage> {
                   onPressed: () async {
                     final canAnalyze = await UserdataService().canAnalyze();
                     if (!canAnalyze) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'You have reached the daily limit of 10 analyzes. Please try again tomorrow.',
-                          ),
-                        ),
+                      utilShowDialog(
+                        context,
+                        AppLocalizations.of(context)!.msgInputLimitReached,
                       );
                       return;
                     }

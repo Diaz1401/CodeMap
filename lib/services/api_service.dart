@@ -70,8 +70,8 @@ Do not include any introduction, closing statements, or content outside of this 
       ],
     });
 
-    Util.printDebug("API", "System Prompt: $systemPrompt $systemPromptLang");
-    Util.printDebug("API", "Prompt: $prompt");
+    printDebug("API", "System Prompt: $systemPrompt $systemPromptLang");
+    printDebug("API", "Prompt: $prompt");
 
     final response = await http.post(
       Uri.parse(url),
@@ -93,14 +93,14 @@ Do not include any introduction, closing statements, or content outside of this 
             return content['parts'][0]['text'] as String;
           }
         }
-        Util.printDebug("API", "Unexpected Gemini output: $data");
+        printDebug("API", "Unexpected Gemini output: $data");
         return null;
       } catch (e) {
-        Util.printDebug("API", "Error parsing Gemini response: $e");
+        printDebug("API", "Error parsing Gemini response: $e");
         return null;
       }
     } else {
-      Util.printDebug(
+      printDebug(
         "API",
         "Error: ${response.statusCode} - ${response.body}",
       );

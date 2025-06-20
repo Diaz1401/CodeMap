@@ -49,4 +49,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navbarSetting => 'Setting';
+
+  @override
+  String get titleWelcome => 'Welcome to CodeMap';
+
+  @override
+  String get msgInputLimitReached =>
+      'Account code input limit reached. Please try again 6 hours later.';
+
+  @override
+  String get msgContinueWithGoogle =>
+      'Please continue with Google account to use this app.';
+
+  @override
+  String get btnContinueWithGoogle => 'Continue with Google';
+
+  @override
+  String get msgSignInFailed => 'Sign in failed. Please try again.';
 }

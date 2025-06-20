@@ -12,5 +12,10 @@
     "resultNoCode": "Belum ada kode yang dianalisis.",
     "navbarInputCode": "Masukan Kode",
     "navbarResults": "Hasil",
-    "navbarSetting": "Pengaturan"
+    "navbarSetting": "Pengaturan",
+    "titleWelcome": "Selamat datang di CodeMap",
+    "msgInputLimitReached": "Batas input kode akun telah tercapai. Silakan coba lagi dalam 6 jam.",
+    "msgContinueWithGoogle": "Silakan lanjutkan dengan akun Google untuk menggunakan aplikasi ini.",
+    "btnContinueWithGoogle": "Lanjutkan dengan akun Google",
+    "msgSignInFailed": "Gagal masuk. Silakan coba lagi."
 }

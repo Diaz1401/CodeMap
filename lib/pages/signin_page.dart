@@ -1,7 +1,8 @@
+import 'package:codemap/l10n/app_localizations.dart';
 import 'package:codemap/services/google_signin_service.dart';
+import 'package:codemap/utils/util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import '../main_navigation.dart';
 
 class LoginPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                'Welcome to CodeMap',
+                AppLocalizations.of(context)!.titleWelcome,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -38,7 +39,7 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'Sign in with Google to continue',
+                AppLocalizations.of(context)!.msgContinueWithGoogle,
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
@@ -52,10 +53,9 @@ class LoginPage extends StatelessWidget {
                       MaterialPageRoute(builder: (_) => const MainNavigation()),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Sign in failed. Please try again.'),
-                      ),
+                    utilShowDialog(
+                      context,
+                      AppLocalizations.of(context)!.msgSignInFailed,
                     );
                   }
                 },
@@ -80,8 +80,8 @@ class LoginPage extends StatelessWidget {
                           fit: BoxFit.contain,
                         ),
                         const SizedBox(width: 16),
-                        const Text(
-                          'Continue with Google',
+                        Text(
+                          AppLocalizations.of(context)!.btnContinueWithGoogle,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

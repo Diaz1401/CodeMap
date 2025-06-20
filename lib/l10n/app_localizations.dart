@@ -181,6 +181,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Setting'**
   String get navbarSetting;
+
+  /// No description provided for @titleWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to CodeMap'**
+  String get titleWelcome;
+
+  /// No description provided for @msgInputLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Account code input limit reached. Please try again 6 hours later.'**
+  String get msgInputLimitReached;
+
+  /// No description provided for @msgContinueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please continue with Google account to use this app.'**
+  String get msgContinueWithGoogle;
+
+  /// No description provided for @btnContinueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get btnContinueWithGoogle;
+
+  /// No description provided for @msgSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in failed. Please try again.'**
+  String get msgSignInFailed;
 }
 
 class _AppLocalizationsDelegate
