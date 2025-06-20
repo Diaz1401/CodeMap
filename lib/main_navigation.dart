@@ -42,10 +42,10 @@ class _MainNavigationState extends State<MainNavigation> {
       appBar: AppBar(title: const Text('CodeMap')),
       body: _selectedIndex == 0
           ? CodeInputPage(
-        onCodeChanged: _onCodeChanged,
-        onAnalyze: _onAnalyze,
-        code: _code,
-      )
+              onCodeChanged: _onCodeChanged,
+              onAnalyze: _onAnalyze,
+              code: _code,
+            )
           : _selectedIndex == 1
           ? ResultsPage(code: _code, analyzed: _analyzed)
           : const SettingsPage(),

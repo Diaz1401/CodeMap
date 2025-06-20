@@ -64,8 +64,8 @@ class _ResultsPageState extends State<ResultsPage> {
       _error = null;
     });
 
-    final aiService = ApiService();
-    final result = await aiService.createPrediction(
+    final apiService = ApiService();
+    final result = await apiService.createPrediction(
       prompt: widget.code,
       context: context,
     );

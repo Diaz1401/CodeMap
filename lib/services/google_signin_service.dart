@@ -35,7 +35,6 @@ class GoogleSignInService {
 
   /// Signs out the user from both Google and Firebase.
   Future<void> signOut() async {
-
     // Sign out from Google.
     await _googleSignIn.signOut();
 

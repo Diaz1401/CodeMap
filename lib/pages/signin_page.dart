@@ -53,7 +53,9 @@ class LoginPage extends StatelessWidget {
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Sign in failed. Please try again.')),
+                      SnackBar(
+                        content: Text('Sign in failed. Please try again.'),
+                      ),
                     );
                   }
                 },
@@ -63,7 +65,10 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 12,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +82,10 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(width: 16),
                         const Text(
                           'Continue with Google',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ],
                     ),

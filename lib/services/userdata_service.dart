@@ -37,7 +37,10 @@ class UserdataService {
     }
     if (lastTime == null || now.difference(lastTime).inHours >= 6) {
       // Reset count for new 6-hour window
-      await _db.child('users/$email').set({'count': 0, 'date': now.toIso8601String()});
+      await _db.child('users/$email').set({
+        'count': 0,
+        'date': now.toIso8601String(),
+      });
       count = 0;
     }
     return count < 10;
@@ -63,6 +66,9 @@ class UserdataService {
       count = 0;
     }
     count++;
-    await _db.child('users/$email').set({'count': count, 'date': now.toIso8601String()});
+    await _db.child('users/$email').set({
+      'count': count,
+      'date': now.toIso8601String(),
+    });
   }
 }

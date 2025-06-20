@@ -87,7 +87,11 @@ class _CodeInputPageState extends State<CodeInputPage> {
                     final canAnalyze = await UserdataService().canAnalyze();
                     if (!canAnalyze) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('You have reached the daily limit of 10 analyzes. Please try again tomorrow.')),
+                        SnackBar(
+                          content: Text(
+                            'You have reached the daily limit of 10 analyzes. Please try again tomorrow.',
+                          ),
+                        ),
                       );
                       return;
                     }
