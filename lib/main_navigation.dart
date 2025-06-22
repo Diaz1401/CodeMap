@@ -17,6 +17,7 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
   String _code = '';
   bool _analyzed = false;
+  String _model = 'granite';
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,17 +25,19 @@ class _MainNavigationState extends State<MainNavigation> {
     });
   }
 
-  void _onAnalyze(String code, bool analyzed) {
+  void _onAnalyze(String code, bool analyzed, String model) {
     setState(() {
       _code = code;
       _analyzed = analyzed;
+      _model = model;
       analyzed ? _selectedIndex = 1 : _selectedIndex = 0;
     });
   }
 
-  void _onCodeChanged(String code) {
+  void _onInputChanged(String code, String model) {
     setState(() {
       _code = code;
+      _model = model;
     });
   }
 
@@ -78,12 +81,17 @@ class _MainNavigationState extends State<MainNavigation> {
       ),
       body: _selectedIndex == 0
           ? CodeInputPage(
-              onCodeChanged: _onCodeChanged,
-              onAnalyze: _onAnalyze,
+              onInputChanged: _onInputChanged,
+              onAnalyze: _onAnalyze, // now expects (code, analyzed, model)
               code: _code,
+              model: _model,
             )
           : _selectedIndex == 1
-          ? ResultsPage(code: _code, analyzed: _analyzed)
+          ? ResultsPage(
+              code: _code,
+              analyzed: _analyzed,
+              model: _model,
+            ) // pass model
           : const SettingsPage(),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[

@@ -8,8 +8,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ResultsPage extends StatefulWidget {
   final String code;
+  final String model;
   final bool analyzed;
-  const ResultsPage({super.key, required this.code, required this.analyzed});
+  const ResultsPage({super.key, required this.code, required this.analyzed, required this.model});
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
@@ -65,8 +66,9 @@ class _ResultsPageState extends State<ResultsPage> {
     });
 
     final apiService = ApiService();
-    final result = await apiService.createPrediction(
+    final result = await apiService.sendPrompt(
       prompt: widget.code,
+      model: widget.model,
       context: context,
     );
 

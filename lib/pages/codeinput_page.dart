@@ -4,15 +4,17 @@ import 'package:codemap/services/userdata_service.dart';
 import 'package:codemap/utils/util.dart';
 
 class CodeInputPage extends StatefulWidget {
-  final void Function(String, bool) onAnalyze;
-  final void Function(String) onCodeChanged;
+  final void Function(String, bool, String) onAnalyze;
+  final void Function(String, String) onInputChanged;
   final String code;
+  final String model;
 
   const CodeInputPage({
     super.key,
     required this.onAnalyze,
-    required this.onCodeChanged,
+    required this.onInputChanged,
     required this.code,
+    required this.model,
   });
 
   @override
@@ -21,12 +23,38 @@ class CodeInputPage extends StatefulWidget {
 
 class _CodeInputPageState extends State<CodeInputPage> {
   late TextEditingController _controller;
+  late String _selectedModel;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.code);
     _controller.addListener(_handleTextChanged);
+    _selectedModel = widget.model;
+  }
+
+  DropdownButton<String> _buildDropdownButton() {
+    return DropdownButton<String>(
+      value: _selectedModel,
+      items: const [
+        DropdownMenuItem(
+          value: 'gemini',
+          child: Text('Google Gemini'),
+        ),
+        DropdownMenuItem(
+          value: 'granite',
+          child: Text('IBM Granite'),
+        ),
+      ],
+      onChanged: (value) {
+        if (value != null) {
+          setState(() {
+            _selectedModel = value;
+            widget.onInputChanged(_controller.text, _selectedModel);
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -38,7 +66,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
   }
 
   void _handleTextChanged() {
-    widget.onCodeChanged(_controller.text);
+    widget.onInputChanged(_controller.text, _selectedModel);
   }
 
   Future<bool> inputNotValid() async {
@@ -48,7 +76,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
         context,
         AppLocalizations.of(context)!.msgCodeInputEmpty,
       );
-      widget.onAnalyze(_controller.text, false);
+      widget.onAnalyze(_controller.text, false, _selectedModel);
       return true;
     }
     if (code.length < 10) {
@@ -56,7 +84,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
         context,
         AppLocalizations.of(context)!.msgCodeInputTooShort,
       );
-      widget.onAnalyze(_controller.text, false);
+      widget.onAnalyze(_controller.text, false, _selectedModel);
       return true;
     }
     final canAnalyze = await UserdataService().canAnalyze();
@@ -65,7 +93,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
         context,
         AppLocalizations.of(context)!.msgInputLimitReached,
       );
-      widget.onAnalyze(_controller.text, false);
+      widget.onAnalyze(_controller.text, false, _selectedModel);
       return true;
     }
     return false;
@@ -87,6 +115,17 @@ class _CodeInputPageState extends State<CodeInputPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              // Model dropdown
+              Row(
+                children: [
+                  Text(
+                    "Model:",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(width: 12),
+                  _buildDropdownButton(),
+                ],
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -117,7 +156,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
                   onPressed: () async {
                     if (await inputNotValid()) return;
                     await UserdataService().incrementAnalyzeCount();
-                    widget.onAnalyze(_controller.text, true);
+                    widget.onAnalyze(_controller.text, true, _selectedModel); // pass model
                   },
                   child: Text(AppLocalizations.of(context)!.codeInputButton),
                 ),

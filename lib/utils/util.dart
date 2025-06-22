@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 void printDebug(String tag, String message) {
   if (kDebugMode) {
-    debugPrint("CodeMap DEBUG: $tag: $message", wrapWidth: 1024);
+    debugPrint("CM_DEBUG [$tag]: $message", wrapWidth: 1024);
   }
 }
 
