@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'l10n/app_localizations.dart';
 import 'pages/codeinput_page.dart';
 import 'pages/results_page.dart';
-import 'pages/settings_page.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -30,7 +29,7 @@ class _MainNavigationState extends State<MainNavigation> {
       _code = code;
       _analyzed = analyzed;
       _model = model;
-      analyzed ? _selectedIndex = 1 : _selectedIndex = 0;
+      _selectedIndex = analyzed ? 1 : 0;
     });
   }
 
@@ -82,17 +81,15 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _selectedIndex == 0
           ? CodeInputPage(
               onInputChanged: _onInputChanged,
-              onAnalyze: _onAnalyze, // now expects (code, analyzed, model)
+              onAnalyze: _onAnalyze,
               code: _code,
               model: _model,
             )
-          : _selectedIndex == 1
-          ? ResultsPage(
+          : ResultsPage(
               code: _code,
               analyzed: _analyzed,
               model: _model,
-            ) // pass model
-          : const SettingsPage(),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -103,10 +100,6 @@ class _MainNavigationState extends State<MainNavigation> {
             icon: const Icon(Icons.description),
             label: AppLocalizations.of(context)!.navbarResults,
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.settings),
-          //   label: AppLocalizations.of(context)!.navbarSetting,
-          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

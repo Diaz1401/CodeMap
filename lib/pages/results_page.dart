@@ -10,7 +10,12 @@ class ResultsPage extends StatefulWidget {
   final String code;
   final String model;
   final bool analyzed;
-  const ResultsPage({super.key, required this.code, required this.analyzed, required this.model});
+  const ResultsPage({
+    super.key,
+    required this.code,
+    required this.analyzed,
+    required this.model,
+  });
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
@@ -125,9 +130,35 @@ class _ResultsPageState extends State<ResultsPage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
+  // Merge repeated TabBarView section code into a single builder
+  Widget _buildTabSection(BuildContext context, int section) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Card(
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: widget.analyzed && widget.code.trim().isNotEmpty
+              ? _error != null
+                    ? Text(_error!, style: const TextStyle(color: Colors.red))
+                    : _loading
+                    ? Text(AppLocalizations.of(context)!.resultLoading)
+                    : Markdown(
+                        data: _extractSection(_markdownBuffer, section),
+                        selectable: true,
+                        onTapLink: (text, href, title) async {
+                          if (href != null) {
+                            await launchUrl(Uri.parse(href));
+                          }
+                        },
+                      )
+              : Text(
+                  AppLocalizations.of(context)!.resultNoCode,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -160,125 +191,7 @@ class _ResultsPageState extends State<ResultsPage> {
           ),
           Expanded(
             child: TabBarView(
-              children: [
-                // Summary Section (AI result)
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: widget.analyzed && widget.code.trim().isNotEmpty
-                          ? _error != null
-                                ? Text(
-                                    _error!,
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                : _loading
-                                ? Text(
-                                    AppLocalizations.of(context)!.resultLoading,
-                                  )
-                                : Markdown(
-                                    data: _extractSection(_markdownBuffer, 0),
-                                    selectable: true,
-                                  )
-                          : Text(
-                              AppLocalizations.of(context)!.resultNoCode,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                    ),
-                  ),
-                ),
-                // Line-by-Line Section
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: widget.analyzed && widget.code.trim().isNotEmpty
-                          ? _error != null
-                                ? Text(
-                                    _error!,
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                : _loading
-                                ? Text(
-                                    AppLocalizations.of(context)!.resultLoading,
-                                  )
-                                : Markdown(
-                                    data: _extractSection(_markdownBuffer, 1),
-                                    selectable: true,
-                                  )
-                          : Text(
-                              AppLocalizations.of(context)!.resultNoCode,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                    ),
-                  ),
-                ),
-                // Glossary Section
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: widget.analyzed && widget.code.trim().isNotEmpty
-                          ? _error != null
-                                ? Text(
-                                    _error!,
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                : _loading
-                                ? Text(
-                                    AppLocalizations.of(context)!.resultLoading,
-                                  )
-                                : Markdown(
-                                    data: _extractSection(_markdownBuffer, 2),
-                                    selectable: true,
-                                  )
-                          : Text(
-                              AppLocalizations.of(context)!.resultNoCode,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                    ),
-                  ),
-                ),
-                // Learning Path Section
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: widget.analyzed && widget.code.trim().isNotEmpty
-                          ? _error != null
-                                ? Text(
-                                    _error!,
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                : _loading
-                                ? Text(
-                                    AppLocalizations.of(context)!.resultLoading,
-                                  )
-                                : Markdown(
-                                    data: _extractSection(_markdownBuffer, 3),
-                                    selectable: true,
-                                    onTapLink: (text, href, title) async {
-                                      if (href != null) {
-                                        await launchUrl(Uri.parse(href));
-                                      }
-                                    },
-                                  )
-                          : Text(
-                              AppLocalizations.of(context)!.resultNoCode,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                    ),
-                  ),
-                ),
-              ],
+              children: List.generate(4, (i) => _buildTabSection(context, i)),
             ),
           ),
         ],

@@ -69,7 +69,6 @@ Do not include any introduction, closing statements, or content outside of this 
           "max_tokens": 8192,
           "stream": false,
         });
-
         final response = await http.post(
           Uri.parse(url),
           headers: {
@@ -78,11 +77,9 @@ Do not include any introduction, closing statements, or content outside of this 
           },
           body: body,
         );
-
         if (response.statusCode == 200) {
           try {
             final data = jsonDecode(response.body);
-            // Refined Granite output parsing
             if (data['choices'] is List &&
                 data['choices'].isNotEmpty &&
                 data['choices'][0]['message'] != null) {
@@ -99,13 +96,8 @@ Do not include any introduction, closing statements, or content outside of this 
             return null;
           }
         } else {
-          printDebug(
-            "API",
-            "Granite Error: ${response.statusCode} - ${response.body}",
-          );
           return null;
         }
-
       case 'gemini':
       default:
         printDebug('API', 'Model used: $model');
@@ -130,18 +122,16 @@ Do not include any introduction, closing statements, or content outside of this 
           ],
         });
 
-        printDebug("API", "System Prompt: $systemPrompt $systemPromptLang");
-        printDebug("API", "Prompt: $prompt");
+        // printDebug("API", "System Prompt: $systemPrompt $systemPromptLang");
+        // printDebug("API", "Prompt: $prompt");
 
         final response = await http.post(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: body,
         );
-
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
-          // Gemini output: candidates[0].content.parts[0].text
           try {
             final candidates = data['candidates'];
             if (candidates is List && candidates.isNotEmpty) {

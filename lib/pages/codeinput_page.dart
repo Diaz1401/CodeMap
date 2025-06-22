@@ -69,7 +69,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
     widget.onInputChanged(_controller.text, _selectedModel);
   }
 
-  Future<bool> inputNotValid() async {
+  Future<bool> _inputNotValid() async {
     final code = _controller.text;
     if (code.isEmpty) {
       utilShowDialog(
@@ -154,7 +154,7 @@ class _CodeInputPageState extends State<CodeInputPage> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (await inputNotValid()) return;
+                    if (await _inputNotValid()) return;
                     await UserdataService().incrementAnalyzeCount();
                     widget.onAnalyze(_controller.text, true, _selectedModel); // pass model
                   },
